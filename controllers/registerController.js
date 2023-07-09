@@ -70,7 +70,6 @@ const handleNewUser = async (req, res) => {
 				if (err) {
 					return res.status(500).json({ error: "Error sending email. Please try again later." });
 				}
-
 			}
 		);
 

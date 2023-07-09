@@ -27,6 +27,7 @@
     "jsonwebtoken": "^9.0.1",
     "mongodb": "^5.7.0",
     "mongoose": "^7.3.2",
+    "mongosh": "^1.10.1",
     "nodemailer": "^6.9.3",
     "nodemon": "^2.0.22",
     "uuid": "^9.0.0",

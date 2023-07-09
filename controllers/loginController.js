@@ -21,24 +21,16 @@ const handleLogin = async (req, res) => {
 	// verifiying the passwords match
 	const match = await bcrypt.compare(pass, foundUser.password);
 	if (match) {
+		const accessToken = jwt.sign({ userId: foundUser._id }, process.env.ACCESS_TOKEN_SECRET, {
+			expiresIn: "10m",
+		});
 
-		const accessToken = jwt.sign(
-			{
-				username: foundUser.username,
-				roles: foundUser.roles,
-			},
-			process.env.REFRESH_TOKEN_SECRET,
-			{ expiresIn: "10m" }
-		);
-
-		const refreshToken = jwt.sign(
-			{ username: foundUser.username },
-			process.env.REFRESH_TOKEN_SECRET,
-			{ expiresIn: "1d" }
-		);
+		const refreshToken = jwt.sign({ userId: foundUser._id }, process.env.REFRESH_TOKEN_SECRET, {
+			expiresIn: "1d",
+		});
 
 		foundUser.refreshToken = refreshToken;
-		const result = await foundUser.save();
+		await foundUser.save();
 
 		// Setting the JWT as a cookie in the response
 		res.cookie("jwt", refreshToken, {
@@ -46,9 +38,12 @@ const handleLogin = async (req, res) => {
 			sameSite: "None",
 			maxAge: 24 * 60 * 60 * 1000,
 		}); //secure: true
+
 		res.json({ accessToken });
 	} else {
-		res.status(400).json({ error: "Could not find a password associated with this user. Try again." });
+		res
+			.status(400)
+			.json({ error: "Could not find a password associated with this user. Try again." });
 	}
 };
 
