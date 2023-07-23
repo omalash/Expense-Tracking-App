@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const transactionSchema = new Schema({
@@ -8,12 +8,12 @@ const transactionSchema = new Schema({
 	},
 	type: {
 		type: String,
-		enum: ["Expense", "Income"],
+		enum: ['Expense', 'Income'],
 		required: true,
 	},
 	category: {
 		type: String,
-		default: "Uncategorized"
+		default: 'Uncategorized',
 	},
 	date: {
 		type: Date,
@@ -21,13 +21,13 @@ const transactionSchema = new Schema({
 	},
 	description: {
 		type: String,
-		default: ""
+		default: '',
 	},
 	userId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "User",
+		ref: 'User',
 		required: true,
-	}
+	},
 });
 
-module.exports = mongoose.model("Transaction", transactionSchema);
+module.exports = mongoose.model('Transaction', transactionSchema);

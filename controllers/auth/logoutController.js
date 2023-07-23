@@ -1,5 +1,5 @@
-const User = require("../models/User");
-const jwt = require("jsonwebtoken");
+const User = require('../../models/User');
+const jwt = require('jsonwebtoken');
 
 const handleLogout = async (req, res) => {
 	req.user = null;
@@ -9,15 +9,15 @@ const handleLogout = async (req, res) => {
 
 	const foundUser = await User.findOne({ refreshToken }).exec();
 	if (!foundUser) {
-		res.clearCookie("jwt", { httpOnly: true, sameSite: "None" });
+		res.clearCookie('jwt', { httpOnly: true, sameSite: 'None' });
 		return res.sendStatus(204);
 	}
 
 	// Delete refreshToken in the database
-	foundUser.refreshToken = "";
+	foundUser.refreshToken = '';
 	await foundUser.save();
 
-	res.clearCookie("jwt", { httpOnly: true, sameSite: "None" }); // secure: true - only serves on https
+	res.clearCookie('jwt', { httpOnly: true, sameSite: 'None' }); // secure: true - only serves on https
 	res.sendStatus(204);
 };
 

@@ -1,9 +1,9 @@
-const User = require("../models/User");
-const jwt = require("jsonwebtoken");
+const User = require('../../models/User');
+const jwt = require('jsonwebtoken');
 
 const handleRefreshToken = async (req, res) => {
 	const cookies = req.cookies;
-	if (!cookies?.jwt) return res.sendStatus(401);
+	if (!cookies?.jwt) return res.status(401).json({ error: 'Refresh token not found.' });
 	const refreshToken = cookies.jwt;
 
 	const foundUser = await User.findOne({ refreshToken }).exec();
@@ -16,7 +16,7 @@ const handleRefreshToken = async (req, res) => {
 				userId: decoded.userId,
 			},
 			process.env.ACCESS_TOKEN_SECRET,
-			{ expiresIn: "10m" }
+			{ expiresIn: '10m' }
 		);
 		res.json({ accessToken });
 	});
