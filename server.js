@@ -2,10 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
+const verifyJWT = require('./middleware/verifyJWT');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 const PORT = process.env.PORT || 9000;
-const verifyJWT = require('./middleware/verifyJWT');
 
 // connects to the MongoDB dataBase
 connectDB();
