@@ -88,13 +88,13 @@ const updateTransaction = async (req, res) => {
 		return res.status(400).json({ error: 'Please specify which transaction you would like to update.' });
 	}
 
+	const transaction = await Transaction.findOne({ _id: id, userId: req.user._id }).exec();
+
+	if (!transaction) {
+		return res.status(404).json({ error: 'Transaction not found.' });
+	}
+
 	try {
-		const transaction = await Transaction.findOne({ _id: id, userId: req.user._id }).exec();
-
-		if (!transaction) {
-			return res.status(404).json({ error: 'Transaction not found.' });
-		}
-
 		if (type) {
 			transaction.type = type;
 		}

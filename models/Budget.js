@@ -9,26 +9,14 @@ const budgetSchema = new Schema({
 	},
 	duration: {
 		type: String,
-		enum: ['Daily', 'Weekly', 'Monthly', 'Annualy'],
+		enum: ['Daily', 'Weekly', 'Monthly', 'Annually'],
 		default: 'Monthly',
-	},
-	startDate: {
-		type: Date, // Optional: Add start date for the budget
-	},
-	endDate: {
-		type: Date, // Optional: Add end date for the budget
 	},
 	userId: {
 		type: Schema.Types.ObjectId,
 		ref: 'User',
 		required: true,
 	},
-	transactions: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: 'Transaction',
-		},
-	],
 });
 
 module.exports = mongoose.model('Budget', budgetSchema);
