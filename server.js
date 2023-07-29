@@ -31,6 +31,5 @@ app.use('/transaction', require('./routes/transaction'));
 app.use('/budget', require('./routes/budget'));
 
 mongoose.connection.once('open', () => {
-	console.log('Connected to MongoDB');
-	app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+	app.listen(PORT);
 });
