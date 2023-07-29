@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/omalash/BudgetApp.git"
+    "url": "git+ssh://git@github.com/omalash/Expense-Tracking-App.git"
   },
   "author": "Omar Malash",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/omalash/BudgetApp"
+    "url": "https://github.com/omalash/Expense-Tracking-App"
   },
-  "homepage": "https://github.com/omalash/BudgetApp",
+  "homepage": "https://github.com/omalash/Expense-Tracking-App",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "concurrently": "^8.2.0",
