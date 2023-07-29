@@ -25,10 +25,12 @@ The Expense Tracking Web Application is a secure and efficient financial managem
     REFRESH_TOKEN_SECRET=YOUR_REFRESH_TOKEN_SECRET
     ```
 
-    Replace YOUR_MONGODB_URI, YOUR_ACCESS_TOKEN_SECRET, and YOUR_REFRESH_TOKEN_SECRET with your MongoDB connection URI, access token secret, and refresh token secret, respectively
+    Replace
+    YOUR_MONGODB_URI, YOUR_ACCESS_TOKEN_SECRET, and YOUR_REFRESH_TOKEN_SECRET
+    with your MongoDB connection URI, access token secret, and refresh token secret, respectively
 
-5. Run the application using the following command: `npm start`
-6. Access the application by navigating to http://localhost:9000 in your web browser.
+6. Run the application using the following command: `npm start`
+7. Access the application by navigating to http://localhost:9000 in your web browser.
 
 ## Usage
 
