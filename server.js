@@ -19,17 +19,14 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
-app.use('/', require('./routes/root'));
-app.use('/register', require('./routes/auth/register'));
-app.use('/verify', require('./routes/auth/emailVerification'));
-app.use('/login', require('./routes/auth/login'));
-app.use('/refresh', require('./routes/auth/refresh'));
-app.use('/logout', require('./routes/auth/logout'));
-
-app.use(verifyJWT);
-app.use('/transaction', require('./routes/transaction'));
-app.use('/budget', require('./routes/budget'));
+app.use('/api/user', require('./routes/user'));
+app.use('/api/verify', require('./routes/auth/emailVerification'));
+app.use('/api/refresh', require('./routes/auth/refresh'));
+app.use('/api/transaction', verifyJWT, require('./routes/transaction'));
+app.use('/api/budget', verifyJWT, require('./routes/budget'));
 
 mongoose.connection.once('open', () => {
-	app.listen(PORT);
+  app.listen(PORT, () => {
+    console.log(`App is listening on port ${PORT}`);
+  });
 });
