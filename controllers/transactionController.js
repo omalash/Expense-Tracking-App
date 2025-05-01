@@ -1,27 +1,26 @@
 const Transaction = require('../models/Transaction');
 const moment = require('moment');
 
+async function fetchTransactionSummary(userId) {
+	const txs = await Transaction.find({ userId });
+	const expenses = txs.filter(t => t.type === 'Expense');
+	const income   = txs.filter(t => t.type === 'Income');
+  
+	const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+	const totalIncome   = income.reduce((sum, i) => sum + i.amount, 0);
+  
+	return {
+	  Income: totalIncome,
+	  incomeTransactions: income,
+	  Expenses: totalExpenses,
+	  expensesTransactions: expenses,
+	  total: totalIncome - totalExpenses,
+	};
+  }
+
 const getAllTransactions = async (req, res) => {
-	let transactions = await Transaction.find({ userId: req.user._id });
-	if (!transactions || transactions.length === 0) {
-		return res.status(200).json({ message: 'No transactions yet.' });
-	}
-
-	let expenses = transactions.filter((transaction) => transaction.type === 'Expense');
-	let income = transactions.filter((transaction) => transaction.type === 'Income');
-
-	const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
-	const totalIncome = income.reduce((sum, income) => sum + income.amount, 0);
-
-	const total = totalIncome - totalExpenses;
-
-	res.json({
-		Income: totalIncome,
-		incomeTransactions: income,
-		Expenses: totalExpenses,
-		expensesTransactions: expenses,
-		total: total,
-	});
+	const summary = await fetchTransactionSummary(req.user._id);
+  	return res.json(summary);
 };
 
 const createTransaction = async (req, res) => {
@@ -57,7 +56,7 @@ const createTransaction = async (req, res) => {
 		});
 
 		// Displaying the created transaction along with the rest of the transactions
-		const updatedTransactions = await getAllTransactions(req, res);
+		const updatedTransactions = await fetchTransactionSummary(req.user._id);
 		res.status(201).json(updatedTransactions);
 	} catch (err) {
 		console.log(err);
@@ -108,7 +107,7 @@ const updateTransaction = async (req, res) => {
 		await transaction.save();
 
 		// Displaying the updated transaction along with the rest of the transactions
-		const updatedTransactions = await getAllTransactions(req, res);
+		const updatedTransactions = await fetchTransactionSummary(req.user._id);
 		res.status(200).json(updatedTransactions);
 	} catch (error) {
 		res.status(500).json({ error: 'An error occurred while updating the transaction.' });
@@ -130,7 +129,7 @@ const deleteTransaction = async (req, res) => {
 		await Transaction.deleteOne({ _id: id }).exec();
 
 		// Displaying the all the transactions with the deleted transaction gone
-		const updatedTransactions = await getAllTransactions(req, res);
+		const updatedTransactions = await fetchTransactionSummary(req.user._id);
 		res.status(200).json(updatedTransactions);
 	} catch (error) {
 		res.status(500).json({ error: 'An error occurred while deleting the transaction.' });

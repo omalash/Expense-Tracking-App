@@ -39,7 +39,7 @@ const handleNewUser = async (req, res) => {
     if (!validPass(password)) {
       return res.status(500).json({
         error:
-          'Invalid password. Passwords must contain one uppercase, one lowercase, and has to be at least 8 characters long. Try again.',
+          'Invalid password. Passwords must contain one uppercase, one lowercase, one special character, and has to be at least 8 characters long. Try again.',
       });
     }
 
@@ -102,18 +102,15 @@ const handleNewUser = async (req, res) => {
 function validUser(user) {
   // Regular expression that excludes any special characters besides _ and .
   // the username also has to be greater then 3 characters and less then 25
-  const pattern = /^[^\s!@#$%^&*()~`<>?:;'"{\}\[\]\\|\+=,-/]{3,25}$/;
+  const pattern = /^[a-zA-Z][a-zA-Z0-9-_]{3,24}$/;
   return pattern.test(user);
 }
 
 function validPass(pwd) {
-  // a valid password has to be at least 8 characters and contain an uppercase and lowercase
+  // a valid password has to be at least 8 characters, a special character, and contain an uppercase and lowercase
 
-  let length = pwd.length >= 8;
-  let upperCase = /[A-Z]/.test(pwd);
-  let lowerCase = /[a-z]/.test(pwd);
-
-  return length && upperCase && lowerCase;
+  const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
+  return pattern.test(pwd);
 }
 
 function generateVerificationToken() {

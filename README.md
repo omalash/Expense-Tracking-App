@@ -2,58 +2,122 @@
 
 ## Overview
 
-The Expense Tracking Web Application is a secure and efficient financial management tool built using Node.js, Express.js, and MongoDB. It enables users to keep track of their expenses, manage budgets, and gain insights into their financial activities. This repository contains the backend implementation of the application, providing RESTful API endpoints for seamless communication with the future React frontend.
+The Expense Tracking Web Application is a full-stack financial management tool designed to help users track expenses, manage budgets, set financial goals, and gain actionable insights. Built with a Node.js/Express backend, MongoDB database, and a React frontend, it provides a seamless and secure user experience.
 
-## Features
+## Key Features
 
-- User registration and login with email verification
-- User authentication and authorization using JSON Web Tokens (JWT)
-- Utilize MongoDB to store and manage user data, financial transactions, and budget plans efficiently
-- Create RESTful API endpoints to perform CRUD (Create, Read, Update, Delete) operations on transactions and budgets
+- **User Authentication & Security**  
+  - Register with email verification  
+  - Secure login and JWT-based access & refresh tokens  
+  - Protected routes for transactions and budgets
 
-## Installation and Setup
+- **Transactions Management**  
+  - Add, view, edit, and delete income and expense entries  
+  - Filter by type (Income/Expense) and sort by date, amount, category, or type  
+  - Inline edit via modal dialogs  
+  - Real-time dashboard updates
 
-1. Clone the repository to your local machine.
-2. Install Node.js and npm if you haven't already.
-3. Install project dependencies by running the following command: `npm install`
-4. Create a .env file in the root directory and add the following environment variables:
-   
-    ```
-    PORT=9000
-    MONGODB_URI=YOUR_MONGODB_URI
-    ACCESS_TOKEN_SECRET=YOUR_ACCESS_TOKEN_SECRET
-    REFRESH_TOKEN_SECRET=YOUR_REFRESH_TOKEN_SECRET
-    ```
+- **Budgets & Goals**  
+  - Create recurring budgets
+  - Track spending against budget limits  
+  - Visual status indicators (On Track / Over Budget)  
 
-    Replace
-    YOUR_MONGODB_URI, YOUR_ACCESS_TOKEN_SECRET, and YOUR_REFRESH_TOKEN_SECRET
-    with your MongoDB connection URI, access token secret, and refresh token secret, respectively
+- **Dashboard Insights**  
+  - Summarized totals: Total Income, Total Expenses, Net Total  
+  - Responsive, widget-based layout  
+  - Sortable and filterable tables  
 
-6. Run the application using the following command: `npm start`
-7. Access the application by navigating to http://localhost:9000 in your web browser.
+- **Guest Mode (Coming Soon)**  
+  - Add transactions and budgets locally without an account  
+  - Full feature preview before sign-up
+
+## Tech Stack
+
+- **Backend:** Node.js, Express.js, Mongoose (MongoDB)  
+- **Frontend:** React, React Router, React Bootstrap, FontAwesome  
+- **Authentication:** JSON Web Tokens (JWT) with access & refresh tokens  
+- **Styling:** Bootstrap 5  
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14+) & npm  
+- MongoDB Atlas account or local MongoDB instance
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/yourusername/expense-tracker.git
+   cd expense-tracker
+   ```
+
+2. **Backend Setup**
+
+   ```bash
+   cd server
+   npm install
+   cp .env.example .env
+   # Edit .env to add your secrets:
+   # MONGODB_URI, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET
+   npm start
+   ```
+
+3. **Frontend Setup**
+
+   ```bash
+   cd ../client
+   npm install
+   cp .env.example .env
+   # Edit .env:
+   # REACT_APP_BACKEND_ROUTE=http://localhost:3500
+   npm start                     # Starts React on http://localhost:3000
+   ```
+
+## Environment Variables
+
+- **Backend (`.env`):**
+
+  ```env
+  PORT=3500
+  MONGODB_URI=<your_mongo_uri>
+  ACCESS_TOKEN_SECRET=<random_secret>
+  REFRESH_TOKEN_SECRET=<random_secret>
+  ```
+
+- **Frontend (`/client/.env`):**
+
+  ```env
+  REACT_APP_BACKEND_ROUTE=http://localhost:3500
+  ```
 
 ## Usage
 
-1. Register as a new user or log in if you already have an account.
-2. Add your financial transactions and manage your budgets using the intuitive interface.
-3. Gain valuable insights into your spending habits and financial activities.
-4. Enjoy a secure and efficient financial management experience!
+1. Navigate to `http://localhost:3000` in your browser.  
+2. Sign up or log in to access the dashboard.  
+3. Create transactions, budgets, and goals.  
+4. Filter, sort, and edit entries directly from the dashboard.  
+5. Log out securely using the top-right button.
 
-## Technologies Used
+## Future Enhancements
 
-- Node.js
-- Express.js
-- MongoDB
+- Export data to CSV/PDF  
+- Charts and visual analytics  
+- Mobile-responsive refinements  
+- Guest mode local storage syncing  
 
 ## Contributing
 
-Contributions to this project are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
+Contributions are welcome! Please:
+
+1. Fork the repo  
+2. Create a feature branch  
+3. Submit a pull request
 
 ## Contact
 
-For any inquiries or collaboration opportunities, feel free to reach out to me:
-
-- Name: Omar Malash
-- Email: omalash004@gmail.com
-- LinkedIn: https://www.linkedin.com/in/omar-malash/
-
+**Omar Malash**  
+Email: <omalash004@gmail.com>  
+LinkedIn: <https://www.linkedin.com/in/omar-malash/>

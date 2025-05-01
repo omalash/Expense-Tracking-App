@@ -65,7 +65,7 @@ const loginUser = async (req, res) => {
     // Setting the JWT as a cookie in the response
     res.cookie('jwt', refreshToken, {
       httpOnly: true,
-      sameSite: 'None',
+      sameSite: 'Lax',
       maxAge: 24 * 60 * 60 * 1000,
     }); //secure: true
 

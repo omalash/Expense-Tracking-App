@@ -9,7 +9,12 @@ const connectDB = require('./config/dbConn');
 const PORT = process.env.PORT || 9000;
 
 // Enable CORS for all routes
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  })
+);
 
 // connects to the MongoDB dataBase
 connectDB();

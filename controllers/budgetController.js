@@ -9,29 +9,28 @@ const getBudgetPlans = async (req, res) => {
 		return res.status(200).json({ message: 'No budgets created yet' });
 	}
 
-	const currentDate = moment();
 	const budgetPlans = [];
-
 	for (const budget of budgets) {
 		let startDate, endDate;
+		const now = moment();
 
 		// Gets all the transactions based on the duration given
 		switch (budget.duration) {
 			case 'Daily':
-				startDate = currentDate.startOf('day').toDate();
-				endDate = currentDate.endOf('day').toDate();
+				startDate = now.clone().startOf('day').toDate();
+				endDate = now.clone().endOf('day').toDate();
 				break;
 			case 'Weekly':
-				startDate = currentDate.startOf('week').toDate();
-				endDate = currentDate.endOf('week').toDate();
+				startDate = now.clone().startOf('isoWeek').toDate();
+				endDate = now.clone().endOf('isoWeek').toDate();
 				break;
 			case 'Monthly':
-				startDate = currentDate.startOf('month').toDate();
-				endDate = currentDate.endOf('month').toDate();
+				startDate = now.clone().startOf('month').toDate();
+				endDate = now.clone().endOf('month').toDate();
 				break;
 			case 'Annually':
-				startDate = currentDate.startOf('year').toDate();
-				endDate = currentDate.endOf('year').toDate();
+				startDate = now.clone().startOf('year').toDate();
+				endDate = now.clone().endOf('year').toDate();
 				break;
 			default:
 				// Skip the budget if the duration is invalid
@@ -82,12 +81,9 @@ const createBudget = async (req, res) => {
 	}
 
 	try {
-		const budgetQuery = {
-			userId: req.user._id,
-		};
-
-		budgetQuery.duration = duration ? duration : 'Monthly';
-		const budget = await Budget.findOne(budgetQuery);
+		const budgetQuery = { userId: req.user._id };
+		budgetQuery.duration = duration || 'Monthly';
+		let budget = await Budget.findOne(budgetQuery);
 
 		// Check if a budget with the same duration already exists for the current user
 		if (budget) {
