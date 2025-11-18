@@ -38,14 +38,16 @@ The Expense Tracking Web Application is a full-stack financial management tool d
 - **Authentication:** JSON Web Tokens (JWT) with access & refresh tokens  
 - **Styling:** Bootstrap 5  
 
-## Getting Started
+## Getting Started: Dockerized Development Environment
+
+This project is fully containerized using Docker Compose, allowing for a complete, self-contained development environment to launch in a single command, including a local MongoDB instance.
 
 ### Prerequisites
 
-- Node.js (v14+) & npm  
-- MongoDB Atlas account or local MongoDB instance
+- **Docker Desktop:** Must be installed and running (includes Docker and Docker Compose)
+- **Git**
 
-### Installation
+### Installation and Launch
 
 1. **Clone the repository**
 
@@ -54,44 +56,33 @@ The Expense Tracking Web Application is a full-stack financial management tool d
    cd expense-tracker
    ```
 
-2. **Backend Setup**
+2. **Configure secrets**
+    The application requires security tokens (JWT secrets). The development configuration uses a local MongoDB container, meaning you do not need to provide a public cloud URI.
 
-   ```bash
-   cd server
-   npm install
-   cp .env.example .env
-   # Edit .env to add your secrets:
-   # MONGODB_URI, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET
-   npm start
-   ```
+    - Create your secrets file by copying the example:
 
-3. **Frontend Setup**
+        ```bash
+        cp .env.example .env
+        ```
 
-   ```bash
-   cd ../client
-   npm install
-   cp .env.example .env
-   # Edit .env:
-   # REACT_APP_BACKEND_ROUTE=http://localhost:3500
-   npm start                     # Starts React on http://localhost:3000
-   ```
+    - Edit the newly created .env file and replace the two placeholder values with long, random strings (e.g., use an online GUID generator):
 
-## Environment Variables
+        - ACCESS_TOKEN_SECRET
+        - REFRESH_TOKEN_SECRET
 
-- **Backend (`.env`):**
+3. **Launch the Development Environment**
 
-  ```env
-  PORT=3500
-  MONGODB_URI=<your_mongo_uri>
-  ACCESS_TOKEN_SECRET=<random_secret>
-  REFRESH_TOKEN_SECRET=<random_secret>
-  ```
+    Run the following single command from the project root. This command builds the optimized images, starts the database, and launches both hot-reloading servers.
 
-- **Frontend (`/client/.env`):**
+    ```bash
+    docker-compose -f docker-compose.dev.yml up --build
+    ```
 
-  ```env
-  REACT_APP_BACKEND_ROUTE=http://localhost:3500
-  ```
+4. **Access the Application**
+
+    Once the logs settle (indicating the React Dev Server is ready), open your browser:
+
+    **Application URL:** `http://localhost:3000`
 
 ## Usage
 
@@ -100,6 +91,18 @@ The Expense Tracking Web Application is a full-stack financial management tool d
 3. Create transactions, budgets, and goals.  
 4. Filter, sort, and edit entries directly from the dashboard.  
 5. Log out securely using the top-right button.
+
+## Behind the Scenes (For Technical Reviewers)
+
+This setup demonstrates:
+
+- **Multi-Stage Builds:** Separate builder stages for both server and client to minimize production image size.
+
+- **Service Discovery:** The backend automatically connects to the mongo service using the mongodb://mongo:27017 internal URI, bypassing public DNS.
+
+- **Local Persistence:** The database uses a named volume (mongo-data) to persist development data locally.
+
+- **Hot-Reloading:** Source code volumes (.:/usr/src/app) are mapped to enable instant code changes on save.
 
 ## Future Enhancements
 

@@ -1,0 +1,33 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    ports:
+      - "3500:3500"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - PORT=3500
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      target: prod
+      args:
+        - REACT_APP_BACKEND_ROUTE=http://localhost:3500 
+    ports:
+      - "3000:80"
+    depends_on:
+      - server
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

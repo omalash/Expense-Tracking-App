@@ -97,7 +97,14 @@ const Main = () => {
     e.preventDefault();
     try {
       const payload = { ...formData, amount: Number(formData.amount) };
-      if (!formData.date) delete payload.date;
+      
+      if (formData.date) {
+        payload.date = formatDate(formData.date);
+      } else {
+        // If date is optional, remove it if empty to avoid sending an empty string
+        delete payload.date;
+      }
+
       await axios.post('/api/transaction', payload, {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
@@ -230,6 +237,16 @@ const Main = () => {
       (a, b) =>
         budgetOrder.indexOf(a.typeOfBudget) - budgetOrder.indexOf(b.typeOfBudget)
     );
+
+  const formatDate = (isoDate) => {
+    if (!isoDate) return null;
+    const parts = isoDate.split('-');
+    if (parts.length === 3) {
+      // Rearrange to MM/DD/YYYY
+      return `${parts[1]}/${parts[2]}/${parts[0]}`;
+    }
+    return isoDate;
+  };
 
   return (
     <div className="container mt-4">
